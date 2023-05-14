@@ -20,8 +20,8 @@ class Plot(ft.UserControl):
 
         self.label = label
 
-        self.min = min or initial
-        self.max = max or initial
+        self.min = min
+        self.max = max
 
         self.current = initial
 
