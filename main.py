@@ -3,7 +3,7 @@ import asyncio
 
 from page.plot import Plot, PlotCpu, PlotMemory
 
-def main(page: ft.Page):
+async def main(page: ft.Page):
 
     page.title = "Mihari"
 
@@ -20,29 +20,17 @@ def main(page: ft.Page):
     page.window_left = 400
     page.window_top = 200
 
-    charts = [
-        PlotCpu(),
-        PlotMemory(),
-    ]
-
-    page.add(
+    await page.add_async(
         ft.WindowDragArea(
-            ft.ResponsiveRow(chart.view for chart in charts)
+            ft.ResponsiveRow([
+                PlotCpu(),
+                # PlotMemory(),
+            ])
         )
     )
 
     page.window_visible = True
 
-    asyncio.run(update(charts))
-
-
-async def update(charts: list[Plot]):
-
-    while True:
-        for chart in charts:
-            chart.update()
-
-        await asyncio.sleep(1)
 
 if __name__ == "__main__":
     # ft.app(target=main, view=ft.FLET_APP_HIDDEN)

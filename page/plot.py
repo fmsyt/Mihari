@@ -1,26 +1,38 @@
+import asyncio
 import flet as ft
 import psutil as pu
 
-class Plot():
+class Plot(ft.UserControl):
 
     min: float = 0
     max: float = 100
 
-    data_points: list[ft.LineChartDataPoint] = []
+    current: float = None
 
-    view: ft.View
-
+    _data_points: list[ft.LineChartDataPoint] = []
     _chart: ft.LineChart
 
+    _view: ft.Row
+
     def __init__(self, label: str, initial: float = 0, min: float = 0, max: float = 100) -> None:
+
+        super().__init__()
+
+        self.label = label
 
         self.min = min or initial
         self.max = max or initial
 
-        self.data_points = list(map(lambda i: ft.LineChartDataPoint(x=i, y=0, show_tooltip=False), list(range(64))))
+        self.current = initial
+
+
+
+    def build(self):
+
+        self._data_points = list(map(lambda i: ft.LineChartDataPoint(x=i, y=0, show_tooltip=False), list(range(64))))
 
         d = ft.LineChartData(
-            data_points=self.data_points,
+            data_points=self._data_points,
             stroke_width=2,
             color=ft.colors.LIGHT_GREEN_800,
             below_line_bgcolor=ft.colors.LIGHT_GREEN,
@@ -52,26 +64,51 @@ class Plot():
             opacity=0.5,
         )
 
-        self.view = ft.Row(
+        self._view = ft.Row(
             controls=[
-                ft.Text(label),
-                self._chart
+                ft.Text(self.label),
+                self._chart,
+                ft.Text(self.current)
             ],
             spacing=8,
         )
 
-    def append_value(self, value: float):
-        self.data_points.pop()
-        self.data_points.append(ft.LineChartDataPoint(y=value, show_tooltip=False))
-
-        for (i, point) in enumerate(self.data_points):
-            point.x = i
+        return self._view
 
 
-    def update(self) -> None:
-        self._chart.data_series[0].data_points = self.data_points
-        self._chart.update()
+    def append_value(self, value: float) -> None:
 
+        self.current = value
+
+        l = len(self._data_points)
+
+        for i in range(l):
+            if i < l - 1:
+                self._data_points[i].y = self._data_points[i + 1].y
+            else:
+                self._data_points[i].y = value
+
+
+    async def did_mount_async(self):
+        self.running = True
+        asyncio.create_task(self.update_timer())
+
+    async def will_unmount_async(self):
+        self.running = False
+
+    async def update_timer(self):
+        while self.running:
+            self.tick()
+
+            self._chart.data_series[0].data_points = self._data_points
+            await self._chart.update_async()
+
+            await self.update_async()
+            await asyncio.sleep(1)
+
+
+    def tick(self) -> None:
+        self.append_value(self.current - 1.0)
 
 
 
@@ -79,21 +116,17 @@ class PlotCpu(Plot):
     def __init__(self, label: str = "CPU") -> None:
         super().__init__(label)
 
-    def update(self) -> None:
+    def tick(self) -> None:
         value = pu.cpu_percent()
         print(value)
         self.append_value(value)
-
-        super().update()
 
 
 class PlotMemory(Plot):
     def __init__(self, label: str = "Memory") -> None:
         super().__init__(label)
 
-    def update(self) -> None:
+    def tick(self) -> None:
         value = pu.cpu_percent(pu.virtual_memory().percent)
         self.append_value(value)
-
-        super().update()
 
