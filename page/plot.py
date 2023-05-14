@@ -6,7 +6,7 @@ class Plot():
     min: float = 0
     max: float = 100
 
-    point_list: list[ft.LineChartDataPoint] = []
+    data_points: list[ft.LineChartDataPoint] = []
 
     view: ft.View
 
@@ -17,10 +17,10 @@ class Plot():
         self.min = min or initial
         self.max = max or initial
 
-        self.point_list = list(map(lambda i: ft.LineChartDataPoint(x=i, y=0, show_tooltip=False), list(range(64))))
+        self.data_points = list(map(lambda i: ft.LineChartDataPoint(x=i, y=0, show_tooltip=False), list(range(64))))
 
         d = ft.LineChartData(
-            data_points=self.point_list,
+            data_points=self.data_points,
             stroke_width=2,
             color=ft.colors.LIGHT_GREEN_800,
             below_line_bgcolor=ft.colors.LIGHT_GREEN,
@@ -61,15 +61,15 @@ class Plot():
         )
 
     def append_value(self, value: float):
-        self.point_list.pop()
-        self.point_list.append(ft.LineChartDataPoint(y=value, show_tooltip=False))
+        self.data_points.pop()
+        self.data_points.append(ft.LineChartDataPoint(y=value, show_tooltip=False))
 
-        for (i, point) in enumerate(self.point_list):
+        for (i, point) in enumerate(self.data_points):
             point.x = i
 
 
     def update(self) -> None:
-        self._chart.data_series[0].data_points = self.point_list
+        self._chart.data_series[0].data_points = self.data_points
         self._chart.update()
 
 
