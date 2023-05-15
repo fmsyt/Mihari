@@ -1,5 +1,7 @@
 # Mihari
 
+![](https://onimai.jp/assets/img/character/mihari_face05.png)
+
 ## Compile
 
 ### Windows
@@ -11,5 +13,5 @@ nuitka --windows-disable-console --standalone --onefile --output-dir=build -o mi
 ### Linux
 
 ```bash
-nuitka --standalone --onefile --output-dir=build -o mihari --linux-onefile-icon="icon.ico" main.py
+nuitka --disable-console --standalone --onefile --output-dir=build -o mihari --linux-onefile-icon="icon.ico" main.py
 ```
