@@ -21,6 +21,7 @@ async def main(page: ft.Page):
         page.bgcolor = ft.colors.TRANSPARENT
 
     page.window_always_on_top = config.application.always_on_top
+    page.window_maximizable = False
 
     page.window_left = 400
     page.window_top = 200
