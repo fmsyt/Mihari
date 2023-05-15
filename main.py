@@ -12,7 +12,8 @@ async def main(page: ft.Page):
     page.window_opacity = 1
 
     page.window_title_bar_hidden = True
-    # page.window_frameless = True
+
+    page.window_always_on_top = True
 
     page.window_left = 400
     page.window_top = 200
@@ -33,5 +34,4 @@ async def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    # ft.app(target=main, view=ft.FLET_APP_HIDDEN)
     ft.app(target=main, view=ft.FLET_APP)
