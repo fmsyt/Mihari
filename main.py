@@ -31,6 +31,8 @@ async def main(page: ft.Page):
     page.window_width = 48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count
     page.window_height = 64 * 2 + padding * controls_count * 2 + spacing * (controls_count - 1)
 
+    page.window_resizable = False
+
 
     area = ft.WindowDragArea(
         ft.ListView(
