@@ -40,7 +40,7 @@ class Plot(ft.UserControl):
             data_points=self._data_points,
             stroke_width=2,
             color=ft.colors.LIGHT_GREEN_800,
-            below_line_bgcolor=ft.colors.LIGHT_GREEN,
+            below_line_bgcolor="#808bc34a",
             curved=False,
             stroke_cap_round=True,
             selected_point=False,
@@ -74,7 +74,7 @@ class Plot(ft.UserControl):
                     width=48,
                     height=64,
                     alignment=ft.alignment.top_left,
-                    col=4
+                    col=3
                 ),
                 ft.Container(
                     content=self._monitor,
@@ -83,7 +83,7 @@ class Plot(ft.UserControl):
                     width=40,
                     height=64,
                     alignment=ft.alignment.top_left,
-                    col=4
+                    col=3
                 ),
                 ft.Container(
                     content=self._chart,
@@ -92,7 +92,7 @@ class Plot(ft.UserControl):
                     width=96,
                     height=64,
                     alignment=ft.alignment.top_left,
-                    col=4
+                    col=6
                 ),
 
             ],

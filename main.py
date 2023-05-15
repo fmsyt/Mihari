@@ -18,12 +18,15 @@ async def main(page: ft.Page):
     page.window_top = 200
 
     area = ft.WindowDragArea(
-        ft.ListView(controls=[
-            PlotCpu(),
-            PlotMemory(),
-        ]),
+        ft.ListView(
+            controls=[
+                PlotCpu(),
+                PlotMemory(),
+            ],
+            spacing=4,
+        ),
         width=page.width,
-        height=page.height
+        height=page.height,
     )
 
     await page.add_async(area)
