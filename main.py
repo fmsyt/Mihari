@@ -12,6 +12,7 @@ async def main(page: ft.Page):
     page.window_opacity = 1
 
     page.window_title_bar_hidden = True
+    page.window_frameless = True
 
     page.window_always_on_top = True
 
