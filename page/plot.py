@@ -2,6 +2,8 @@ import asyncio
 import flet as ft
 import psutil as pu
 
+from config import Config
+
 class Plot(ft.UserControl):
 
     min: float = 0
@@ -33,6 +35,8 @@ class Plot(ft.UserControl):
 
 
     def build(self):
+
+        config = Config()
 
         self._data_points = list(map(lambda i: ft.LineChartDataPoint(x=i, y=0, show_tooltip=False), list(range(64))))
 
@@ -70,7 +74,7 @@ class Plot(ft.UserControl):
                         size=12,
                     ),
                     bgcolor="#AA000000",
-                    padding=8,
+                    padding=config.plot.padding,
                     width=48,
                     height=64,
                     alignment=ft.alignment.top_left,
@@ -79,7 +83,7 @@ class Plot(ft.UserControl):
                 ft.Container(
                     content=self._monitor,
                     bgcolor="#AA000000",
-                    padding=8,
+                    padding=config.plot.padding,
                     width=40,
                     height=64,
                     alignment=ft.alignment.top_left,
@@ -88,7 +92,7 @@ class Plot(ft.UserControl):
                 ft.Container(
                     content=self._chart,
                     bgcolor="#AA000000",
-                    padding=8,
+                    padding=config.plot.padding,
                     width=96,
                     height=64,
                     alignment=ft.alignment.top_left,
@@ -96,7 +100,7 @@ class Plot(ft.UserControl):
                 ),
 
             ],
-            spacing=4,
+            spacing=config.plot.spacing,
         )
 
         return self._view

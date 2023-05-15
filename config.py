@@ -1,9 +1,30 @@
 import json
+import flet as ft
 
 from flet.utils import is_windows
 
+
+class ConfigApplication:
+    transparent = False
+    always_on_top = True
+    hide_toolbar = True
+    theme_mode = ft.ThemeMode.DARK
+
+    def __init__(self) -> None:
+        self.transparent = is_windows()
+
+class ConfigPlot:
+    padding = 8
+    spacing = 4
+
+    def __init__(self) -> None:
+        pass
+
 class Config:
     _instance = None
+
+    application: ConfigApplication
+    plot: ConfigPlot
 
     def __new__(cls, *args, **kwargs):
         if not cls._instance:
@@ -14,22 +35,9 @@ class Config:
         self.initialize()
 
     def initialize(self):
-        defaults = self.get_defaults()
+        self.application = ConfigApplication()
+        self.plot = ConfigPlot()
 
-        self.application = defaults.application
-        self.plot = defaults.plot
-
-    def get_defaults(self):
-        return {
-            "application": {
-                "transparent": is_windows(),
-                "always_on_top": True,
-            },
-            "plot": {
-                "spacing": 4,
-            }
-        }
-
-    @NotImplemented
     def save(self):
         pass
+
