@@ -7,10 +7,15 @@ class Plot(ft.UserControl):
     min: float = 0
     max: float = 100
 
+    prefix: str = ""
+    postfix: str = "%"
+
     current: float = None
 
     _data_points: list[ft.LineChartDataPoint] = []
     _chart: ft.LineChart
+
+    _monitor: ft.Text
 
     _view: ft.Row
 
@@ -44,33 +49,51 @@ class Plot(ft.UserControl):
 
         self._chart = ft.LineChart(
             data_series=[d],
-            border=ft.border.all(2, ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE)),
-            horizontal_grid_lines=ft.ChartGridLines(
-                interval=10, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
-            ),
-            vertical_grid_lines=ft.ChartGridLines(
-                interval=8, color=ft.colors.with_opacity(0.2, ft.colors.ON_SURFACE), width=1
-            ),
-
-            tooltip_bgcolor=ft.colors.with_opacity(0.8, ft.colors.BLUE_GREY),
-            min_y=min,
-            max_y=max,
+            min_y=self.min,
+            max_y=self.max,
             min_x=0,
             max_x=63,
-            # animate=5000,
+            # animate=False,
             # expand=True,
-            width=8 * 16,
-            height=8 * 9,
-            opacity=0.5,
+        )
+
+        self._monitor = ft.Text(
+            value = f"{self.prefix}{self.current}{self.postfix}",
+            size=12,
         )
 
         self._view = ft.Row(
             controls=[
-                ft.Text(self.label),
-                self._chart,
-                ft.Text(self.current)
+                ft.Container(
+                    content=ft.Text(
+                        value = self.label,
+                        size=12,
+                    ),
+                    bgcolor="#AA000000",
+                    padding=8,
+                    width=48,
+                    height=64,
+                    alignment=ft.alignment.top_left
+                ),
+                ft.Container(
+                    content=self._monitor,
+                    bgcolor="#AA000000",
+                    padding=8,
+                    width=40,
+                    height=64,
+                    alignment=ft.alignment.top_left
+                ),
+                ft.Container(
+                    content=self._chart,
+                    bgcolor="#AA000000",
+                    padding=8,
+                    width=96,
+                    height=64,
+                    alignment=ft.alignment.top_left
+                ),
+
             ],
-            spacing=8,
+            spacing=4,
         )
 
         return self._view
@@ -101,7 +124,10 @@ class Plot(ft.UserControl):
             self.tick()
 
             self._chart.data_series[0].data_points = self._data_points
+            self._monitor.value = f"{self.prefix}{self.current}{self.postfix}"
+
             await self._chart.update_async()
+            await self._monitor.update_async()
 
             await self.update_async()
             await asyncio.sleep(1)
@@ -114,19 +140,18 @@ class Plot(ft.UserControl):
 
 class PlotCpu(Plot):
     def __init__(self, label: str = "CPU") -> None:
-        super().__init__(label)
+        super().__init__(label, min=0, max=100)
 
     def tick(self) -> None:
         value = pu.cpu_percent()
-        print(value)
-        self.append_value(value)
+        self.append_value(round(value))
 
 
 class PlotMemory(Plot):
-    def __init__(self, label: str = "Memory") -> None:
-        super().__init__(label)
+    def __init__(self, label: str = "Mem") -> None:
+        super().__init__(label, min=0, max=100)
 
     def tick(self) -> None:
-        value = pu.cpu_percent(pu.virtual_memory().percent)
-        self.append_value(value)
+        value = pu.virtual_memory().percent
+        self.append_value(round(value))
 
