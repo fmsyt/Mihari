@@ -129,11 +129,14 @@ class Plot(ft.UserControl):
             self._chart.data_series[0].data_points = self._data_points
             self._monitor.value = f"{self.prefix}{self.current}{self.postfix}"
 
-            await self._chart.update_async()
-            await self._monitor.update_async()
+            tasks = [
+                self._chart.update_async(),
+                self._monitor.update_async(),
+                self.update_async(),
+                asyncio.sleep(1),
+            ]
 
-            await self.update_async()
-            await asyncio.sleep(1)
+            await asyncio.gather(*tasks)
 
 
     def tick(self) -> None:
