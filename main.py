@@ -6,13 +6,11 @@ async def main(page: ft.Page):
 
     page.title = "Mihari"
 
-    page.window_bgcolor = ft.colors.TRANSPARENT
-    page.bgcolor = ft.colors.TRANSPARENT
-
-    page.window_opacity = 1
-
     page.window_title_bar_hidden = True
     page.window_frameless = True
+
+    page.window_bgcolor = ft.colors.TRANSPARENT
+    page.bgcolor = ft.colors.TRANSPARENT
 
     page.window_always_on_top = True
 
@@ -34,6 +32,8 @@ async def main(page: ft.Page):
 
     page.window_resizable = False
 
+    page.window_visible = True
+
 
     area = ft.WindowDragArea(
         ft.ListView(
@@ -48,4 +48,4 @@ async def main(page: ft.Page):
 
 
 if __name__ == "__main__":
-    ft.app(target=main, view=ft.FLET_APP)
+    ft.app(target=main, view=ft.FLET_APP_HIDDEN)
