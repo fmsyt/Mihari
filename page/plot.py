@@ -53,7 +53,7 @@ class Plot(ft.UserControl):
             max_y=self.max,
             min_x=0,
             max_x=63,
-            # animate=False,
+            animate=1,
             # expand=True,
         )
 

@@ -18,7 +18,7 @@ async def main(page: ft.Page):
     page.window_top = 200
 
     area = ft.WindowDragArea(
-        ft.Column(controls=[
+        ft.ListView(controls=[
             PlotCpu(),
             PlotMemory(),
         ]),
