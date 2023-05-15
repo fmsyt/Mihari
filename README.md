@@ -12,6 +12,8 @@ nuitka --windows-disable-console --standalone --onefile --output-dir=build -o mi
 
 ### Linux
 
+Requires `patchelf` to be installed from `apt`/`yum`/`dnf`.
+
 ```bash
-nuitka --disable-console --standalone --onefile --output-dir=build -o mihari --linux-onefile-icon="icon.ico" main.py
+nuitka3 --disable-console --standalone --onefile --output-dir=build -o mihari --linux-onefile-icon="icon.ico" main.py
 ```
