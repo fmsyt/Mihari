@@ -62,7 +62,7 @@ class Plot(ft.UserControl):
             size=12,
         )
 
-        self._view = ft.Row(
+        self._view = ft.ResponsiveRow(
             controls=[
                 ft.Container(
                     content=ft.Text(
@@ -73,7 +73,8 @@ class Plot(ft.UserControl):
                     padding=8,
                     width=48,
                     height=64,
-                    alignment=ft.alignment.top_left
+                    alignment=ft.alignment.top_left,
+                    col=4
                 ),
                 ft.Container(
                     content=self._monitor,
@@ -81,7 +82,8 @@ class Plot(ft.UserControl):
                     padding=8,
                     width=40,
                     height=64,
-                    alignment=ft.alignment.top_left
+                    alignment=ft.alignment.top_left,
+                    col=4
                 ),
                 ft.Container(
                     content=self._chart,
@@ -89,7 +91,8 @@ class Plot(ft.UserControl):
                     padding=8,
                     width=96,
                     height=64,
-                    alignment=ft.alignment.top_left
+                    alignment=ft.alignment.top_left,
+                    col=4
                 ),
 
             ],
