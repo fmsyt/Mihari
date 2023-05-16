@@ -5,6 +5,22 @@ from page.settings import Settings
 from config import Config
 from flet.utils import is_windows
 
+def page_initialize(page: ft.Page):
+    config = Config()
+
+    page.window_title_bar_hidden = config.application.hide_toolbar
+    # page.window_frameless = config.application.hide_toolbar
+
+    padding = config.plot.padding
+    spacing = config.plot.spacing
+
+    controls_count = 2
+
+    page.window_resizable = False
+
+    page.window_width=48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count
+    page.window_height=(64 + padding + spacing * 2) * controls_count
+
 async def main(page: ft.Page):
 
     config = Config()
@@ -18,45 +34,40 @@ async def main(page: ft.Page):
         page.bgcolor = ft.colors.TRANSPARENT
 
 
-    page.window_title_bar_hidden = config.application.hide_toolbar
-    page.window_frameless = config.application.hide_toolbar
-
     page.window_left = 400
     page.window_top = 200
 
-    padding = config.plot.padding
-    spacing = config.plot.spacing
-
-    controls_count = 2
-
-    page.window_resizable = False
-
-    page.window_width=48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count
-    page.window_height=(64 + padding + spacing) * controls_count
-
+    page_initialize(page)
 
     async def route_change(route):
 
         page.views.clear()
-        page.views.append(
-            ft.View(
-                route="/",
-                controls=[Index()],
-                bgcolor = ft.colors.TRANSPARENT,
+
+        if page.route == "/":
+            page.views.append(
+                ft.View(
+                    route="/",
+                    controls=[Index()],
+                    bgcolor = ft.colors.TRANSPARENT,
+                )
             )
-        )
 
         print(page.route)
 
-        if page.route != "/":
-            page.window_width = None
-            page.window_height = None
+        if page.route == "/":
+            page_initialize(page)
+
+        else:
+            page.window_width = 400
+            page.window_height = 300
 
             page.window_always_on_top = False
             page.window_maximizable = True
 
             page.window_title_bar_hidden = False
             page.window_frameless = False
+
+            page.window_resizable = True
 
 
         if page.route == "/settings":
