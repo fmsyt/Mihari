@@ -43,7 +43,7 @@ class Index(ft.UserControl):
 
 
     async def icon_click(self, e):
-        await self.page.go_async("/settings")
+        await self.page.launch_url_async("/settings", web_window_name="settings")
 
     async def hover(self, e: ft.HoverEvent):
         self.settings_icon.visible = e.data == "true"

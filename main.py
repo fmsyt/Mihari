@@ -18,14 +18,21 @@ async def main(page: ft.Page):
         page.bgcolor = ft.colors.TRANSPARENT
 
 
+    page.window_title_bar_hidden = config.application.hide_toolbar
+    page.window_frameless = config.application.hide_toolbar
+
     page.window_left = 400
     page.window_top = 200
 
-    plot = Index()
+    padding = config.plot.padding
+    spacing = config.plot.spacing
 
-    page.window_width = plot.width
-    page.window_height = plot.height
+    controls_count = 2
 
+    page.window_resizable = False
+
+    page.window_width=48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count
+    page.window_height=(64 + padding + spacing) * controls_count
 
 
     async def route_change(route):
@@ -34,23 +41,14 @@ async def main(page: ft.Page):
         page.views.append(
             ft.View(
                 route="/",
-                controls=[plot],
+                controls=[Index()],
                 bgcolor = ft.colors.TRANSPARENT,
             )
         )
 
-        if page.route == "/":
-            page.window_width = plot.width
-            page.window_height = plot.height
+        print(page.route)
 
-            page.window_always_on_top = config.application.always_on_top
-            page.window_maximizable = False
-
-            page.window_title_bar_hidden = config.application.hide_toolbar
-            page.window_frameless = config.application.hide_toolbar
-
-
-        else:
+        if page.route != "/":
             page.window_width = None
             page.window_height = None
 
