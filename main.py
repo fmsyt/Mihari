@@ -3,7 +3,7 @@ import flet as ft
 from config import Config
 from flet.utils import is_windows
 
-from page.plot import PlotCpu, PlotMemory
+from component.plot import PlotCpu, PlotMemory
 
 async def main(page: ft.Page):
 
