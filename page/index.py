@@ -34,8 +34,7 @@ class Index(ft.UserControl):
         self.component = ft.WindowDragArea(
             content=ft.Container(stack, on_hover=self.hover),
             maximizable=False,
-            width=48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count,
-            height=(64 + padding + spacing) * controls_count,
+            height=self.height
         )
 
         return self.component
