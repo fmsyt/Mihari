@@ -13,6 +13,8 @@ def page_initialize(page: ft.Page):
 
     controls_count = 2
 
+    page.window_always_on_top = config.application.always_on_top
+
     page.window_maximizable = False
     page.window_resizable = False
 
