@@ -13,14 +13,21 @@ def page_initialize(page: ft.Page):
 
     controls_count = 2
 
+    windows_title_bar_height = 10
+
     page.window_width=48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count
     page.window_height=(64 + padding + spacing) * controls_count
+
+    page.window_title_bar_hidden = config.application.hide_toolbar
+    page.window_frameless = config.application.frameless
+
+    if is_windows() and config.application.hide_toolbar:
+        page.window_height += windows_title_bar_height
 
 async def main(page: ft.Page):
 
     config = Config()
 
-    page.title = "Mihari"
 
     page.theme_mode = config.application.theme_mode
 
@@ -31,10 +38,6 @@ async def main(page: ft.Page):
 
     page.window_left = 400
     page.window_top = 200
-
-    # page.window_title_bar_hidden = config.application.hide_toolbar
-    # page.window_frameless = config.application.hide_toolbar
-
 
     page_initialize(page)
 
@@ -58,8 +61,6 @@ async def main(page: ft.Page):
         else:
             page.window_width = 400
             page.window_height = 300
-
-            # page.window_max_height = None
 
         if page.route == "/settings":
             page.views.append(
