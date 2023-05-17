@@ -5,6 +5,8 @@ import flet as ft
 from page.index import Index
 from page.settings import Settings
 
+from PIL import Image
+
 from config import Config
 from flet.utils import is_windows
 
@@ -101,4 +103,8 @@ async def main(page: ft.Page):
 
 
 if __name__ == "__main__":
+    # icon = pystray.Icon(
+    #     name="Mihari",
+    #     title="Mihari",
+    # )
     ft.app(target=main, view=ft.FLET_APP)

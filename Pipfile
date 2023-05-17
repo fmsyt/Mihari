@@ -7,6 +7,7 @@ name = "pypi"
 flet = "*"
 psutil = "*"
 pystray = "*"
+pillow = "*"
 
 [dev-packages]
 nuitka = "*"
