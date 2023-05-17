@@ -3,7 +3,7 @@ from page.index import Index
 from page.settings import Settings
 
 from config import Config
-from flet.utils import is_windows, is_linux
+from flet.utils import is_windows
 
 def page_initialize(page: ft.Page):
     config = Config()
@@ -14,7 +14,6 @@ def page_initialize(page: ft.Page):
     controls_count = 2
 
     windows_title_bar_height = 10
-    linux_title_bar_height = 10
 
     page.padding = 0
 
@@ -26,9 +25,6 @@ def page_initialize(page: ft.Page):
 
     if is_windows() and config.application.hide_toolbar:
         page.window_height += windows_title_bar_height
-
-    if is_linux() and config.application.hide_toolbar:
-        page.window_height -= linux_title_bar_height
 
 async def main(page: ft.Page):
 
