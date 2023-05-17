@@ -1,3 +1,6 @@
+import pystray
+import threading
+
 import flet as ft
 from page.index import Index
 from page.settings import Settings
