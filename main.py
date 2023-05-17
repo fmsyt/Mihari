@@ -13,9 +13,8 @@ def page_initialize(page: ft.Page):
 
     controls_count = 2
 
-    windows_title_bar_height = 10
-
-    page.padding = 0
+    page.window_maximizable = False
+    page.window_resizable = False
 
     page.window_width=48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count
     page.window_height=(64 + padding + spacing) * controls_count
@@ -24,6 +23,7 @@ def page_initialize(page: ft.Page):
     page.window_frameless = config.application.frameless
 
     if is_windows() and config.application.hide_toolbar:
+        windows_title_bar_height = 10
         page.window_height += windows_title_bar_height
 
 async def main(page: ft.Page):

@@ -8,7 +8,7 @@ class ConfigApplication:
     transparent = False
     always_on_top = True
     hide_toolbar = True
-    frameless = True
+    frameless = False
     theme_mode = ft.ThemeMode.DARK
 
     def __init__(self) -> None:
