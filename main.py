@@ -1,110 +1,40 @@
-import pystray
-import threading
+from pystray import Icon, MenuItem, Menu
 
 import flet as ft
-from page.index import Index
-from page.settings import Settings
+from page.index import run
 
 from PIL import Image
 
-from config import Config
-from flet.utils import is_windows
+class TaskTray:
+    def __init__(self, image: str):
+        self.status = False
 
-def page_initialize(page: ft.Page):
-    config = Config()
+        icon = Image.open(image)
 
-    padding = config.plot.padding
-    spacing = config.plot.spacing
+        menu = Menu(
+            MenuItem('Exit', self.stopProgram),
+        )
 
-    controls_count = 2
+        self.icon = Icon(name='Mihari', title='Mihari', icon=icon, menu=menu)
 
-    page.window_always_on_top = config.application.always_on_top
+    def stopProgram(self, icon):
+        self.status = False
 
-    page.window_maximizable = False
-    page.window_resizable = False
-
-    page.window_width=48 + 40 + 96 + padding * controls_count * 4 + spacing * controls_count
-    page.window_height=(64 + padding + spacing) * controls_count
-
-    page.window_title_bar_hidden = config.application.hide_toolbar
-    page.window_frameless = config.application.frameless
-
-    if is_windows() and config.application.hide_toolbar:
-        windows_title_bar_height = 10
-        page.window_height += windows_title_bar_height
-
-async def main(page: ft.Page):
-
-    config = Config()
+        ## 停止
+        self.icon.stop()
 
 
-    page.theme_mode = config.application.theme_mode
+    def runProgram(self):
+        self.status = True
 
-    if is_windows():
-        page.window_bgcolor = ft.colors.TRANSPARENT
-        page.bgcolor = ft.colors.TRANSPARENT
+        ft.app(target=run, view=ft.FLET_APP)
 
+        ## 実行
+        self.icon.run()
 
-    page.window_left = 400
-    page.window_top = 200
-
-    page_initialize(page)
-
-    async def route_change(route):
-
-        page.views.clear()
-
-        if page.route == "/":
-            page.views.append(
-                ft.View(
-                    route="/",
-                    controls=[Index()],
-                    bgcolor = ft.colors.TRANSPARENT,
-                )
-            )
-
-
-        if page.route == "/":
-            page_initialize(page)
-
-        else:
-            page.window_width = 400
-            page.window_height = 300
-
-        if page.route == "/settings":
-            page.views.append(
-                ft.View(
-                    "/settings",
-                    [
-                        ft.AppBar(title=ft.Text("設定"), bgcolor=ft.colors.SURFACE_VARIANT),
-                        Settings(),
-                    ],
-                )
-            )
-
-
-        await page.update_async()
-
-
-
-
-    async def view_pop(view: ft.View):
-        page.views.pop()
-        top_view = page.views[-1]
-
-        await page.go_async(top_view.route)
-
-        page.window_width = 200
-        page.window_height = 100
-
-    page.on_route_change = route_change
-    page.on_view_pop = view_pop
-    await page.go_async(page.route)
 
 
 if __name__ == "__main__":
-    # icon = pystray.Icon(
-    #     name="Mihari",
-    #     title="Mihari",
-    # )
-    ft.app(target=main, view=ft.FLET_APP)
+    system_tray = TaskTray("icon_x128.png")
+    system_tray.runProgram()
+

@@ -147,7 +147,6 @@ class Plot(ft.UserControl):
         self.append_value(self.current - 1.0)
 
 
-
 class PlotCpu(Plot):
     def __init__(self, label: str = "CPU") -> None:
         super().__init__(label, min=0, max=100)
