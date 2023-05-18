@@ -24,7 +24,7 @@ class TaskTray:
         self.icon.stop()
 
 
-    def runProgram(self):
+    def run(self):
         self.status = True
 
         ft.app(target=run, view=ft.FLET_APP)
@@ -36,5 +36,5 @@ class TaskTray:
 
 if __name__ == "__main__":
     system_tray = TaskTray("icon_x128.png")
-    system_tray.runProgram()
+    system_tray.run()
 
