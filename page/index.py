@@ -27,11 +27,6 @@ class Index(ft.UserControl):
             ]
         )
 
-        padding = config.plot.padding
-        spacing = config.plot.spacing
-
-        controls_count = 2
-
         self.component = ft.WindowDragArea(
             content=ft.Container(stack, on_hover=self.hover),
             maximizable=False,
@@ -117,6 +112,7 @@ async def run(page: ft.Page):
 
     page.on_route_change = route_change
     page.on_view_pop = view_pop
+
     await page.go_async(page.route)
 
 
