@@ -44,9 +44,9 @@ class TaskTray:
 
 
 if __name__ == "__main__":
-    system_tray = TaskTray("icon_x128.png")
-    system_tray.run()
+    # system_tray = TaskTray("icon_x128.png")
+    # system_tray.run()
 
-    # ft.app(target=run, view=ft.FLET_APP)
-    # print("exit.")
+    ft.app(target=run, view=ft.FLET_APP)
+    print("exit.")
 
